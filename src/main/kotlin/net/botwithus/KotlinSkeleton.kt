@@ -81,42 +81,29 @@ class KotlinSkeleton(
 
     private fun handleMagicPrayerSwitch() {
         println("Detected magic switch, attempting...")
-        if (VarManager.getVarbitValue(16768) == 0) {
-            //The varbit is 0, meaning deflect magic is not on, so we should turn it on.
-            //Use variable debug to find these varbits, or the scripting-data channel!
-            val success: Boolean = ActionBar.usePrayer("Deflect Magic")
-            println("Switched to deflect magic:  $success")
+        if (VarManager.getVarbitValue(16768) == 0 && VarManager.getVarbitValue(16745) == 0) {
+            val success: Boolean = ActionBar.usePrayer("Deflect Magic") || ActionBar.usePrayer("Protect from Magic")
+            println("Switched to magic prayer: $success")
             if (success) {
-                //Increment the integer tracking our number of flicks for the UI stats tab.
                 flicksFlicked++
-                //Wait after clicking the prayer so we don't spam it and never turn it on.
                 Execution.delay(random.nextLong(1550,2050))
             }
         } else {
-            //The varbit is 1, meaning deflect magic is already on.
-            //Use variable debug to find these varbits, or the scripting-data channel!
-            println("Varbit 16798 was ${VarManager.getVarbitValue(16768)}")
+            println("Magic prayer already active")
         }
     }
 
     private fun handleRangePrayerSwitch() {
         println("Detected range switch, attempting...")
-        if (VarManager.getVarbitValue(16769) == 0) {
-            //The varbit is 0, meaning deflect ranged is not on, so we should turn it on.
-            //Use variable debug to find these varbits, or the scripting-data channel!
-            val success: Boolean = ActionBar.usePrayer("Deflect Ranged")
-            //Log our attempt and true/false result to the script console.
-            println("Switched to deflect ranged:  $success")
+        if (VarManager.getVarbitValue(16769) == 0 && VarManager.getVarbitValue(16746) == 0) {
+            val success: Boolean = ActionBar.usePrayer("Deflect Ranged") || ActionBar.usePrayer("Protect from Ranged")
+            println("Switched to ranged prayer: $success")
             if (success) {
-                //Increment the integer tracking our number of flicks for the UI stats tab.
                 flicksFlicked++
-                //Wait after clicking the prayer so we don't spam it and never turn it on.
                 Execution.delay(random.nextLong(1550,2050))
             }
         } else {
-            //The varbit is 1, meaning deflect ranged is already on.
-            //Use variable debug to find these varbits, or the scripting-data channel!
-            println("Varbit 16769 was ${VarManager.getVarbitValue(16769)}")
+            println("Ranged prayer already active")
         }
     }
 
